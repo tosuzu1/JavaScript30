@@ -63,12 +63,42 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: bottom right;
+      transform: rotate(90deg);
+      /* transition: all 0.1s;
+      transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1); */
+    }
+
+    .second-hand {
+      background-color: red;
     }
 
   </style>
 
   <script>
+    const secondHand = document.querySelector(".second-hand");
+    const hourHand = document.querySelector(".hour-hand");
+    const minHand = document.querySelector(".min-hand");
 
+    setInterval(updateTime, 1000);
+
+    function updateTime(event) {
+      const d = new Date();
+
+      // Calculate time
+      const second = d.getSeconds();
+      const secondDegree = (second / 60) * 360;
+      secondHand.style.transform = `rotate(${secondDegree + 90}deg)`;
+
+      const minute = d.getMinutes();
+      const minuteDegree = (minute / 60) * 360;
+      minHand.style.transform = `rotate(${minuteDegree + 90}deg)`;
+
+      const hour = d.getHours() % 12; // convert 24 hour to 12 hour
+      const hourDegree = (hour / 12 ) * 360;
+      hourHand.style.transform = `rotate(${hourDegree + 90}deg)`;
+
+    }
 
   </script>
 </body>
