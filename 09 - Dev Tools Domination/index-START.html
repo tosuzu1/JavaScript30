@@ -19,28 +19,58 @@
     }
 
     // Regular
+    console.log('hello');
 
     // Interpolated
+    console.log("this is a regular string %s and number %d" , dogs[0].name, dogs[1].age);
 
     // Styled
+    console.log("%c I am a red text",
+      'font-size: 30px; background: black; text-shadow: 10px 10px 0 blue'
+    );
 
     // warning!
+    console.warn("Something went wrong");
 
     // Error :|
+    console.error("something went really wrong");
 
     // Info
+    console.info("flight is happening soon");
 
     // Testing
+    console.assert(11 === 12, "printed because it was false");
 
     // clearing
+    console.clear(); // troll dev
 
     // Viewing DOM Elements
+    const p = document.querySelector('p');
+    console.log(p);
+    console.dir(p);
 
     // Grouping together
+    dogs.forEach(dog => {
+      console.group(`${dog.name}`);
+      console.log(`This is a ${dog.name} that is ${dog.age} years old`);
+      console.groupEnd();
+    })
 
     // counting
+    console.count('wes');
+    console.count('wes');
+    console.count('wes');
+    console.count('wes');
+    console.count('wes');
 
     // timing
+    console.time("fetching Data");
+    fetch("https://api.github.com/users/tosuzu1")
+      .then(data => data.json())
+      .then(data => {
+        console.timeEnd("fetching Data");
+        console.table(data)
+      });
 
   </script>
 </body>

@@ -97,6 +97,74 @@
   </div>
 
 <script>
+  let shiftKeyDown = false;
+  let lastChecked = null;
+
+ 
+  document.addEventListener("keydown", (event) => {
+    if (event.key === 'Shift') shiftKeyDown = true;
+    console.log(event.key)
+  });
+  document.addEventListener("keyup", (event) => {
+    if (event.key === 'Shift') shiftKeyDown = false;
+  })
+
+  const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
+
+  for (var i = 0; i < checkboxes.length; i++) {
+    console.log(checkboxes[i]);
+    checkboxes[i].dataset.itemIndex = i;
+  } 
+
+
+  checkboxes.forEach((checkbox) =>
+    checkbox.addEventListener('click',  handleShiftCheck)
+  );
+
+  function handleShiftCheck(event) {
+    if (shiftKeyDown && this.checked) {
+      // if a item was checked and this was marked
+      // check all boxbetween last and this one
+      currentChecked = this.dataset.itemIndex;
+
+      if (Number(currentChecked) > Number(lastChecked)) {
+        // down going up to last check
+        for(let i = lastChecked; i <= currentChecked; i++) {
+          const itemToCheck = document.querySelector(`input[data-item-index='${i}']`);
+          console.log(itemToCheck);
+          itemToCheck.checked = true;
+        }
+      } else if (Number(currentChecked)  < Number(lastChecked)){
+        for(let i =  currentChecked; i <= lastChecked; i++) {
+          const itemToCheck = document.querySelector(`input[data-item-index='${i}']`);
+          console.log(itemToCheck);
+          itemToCheck.checked = true;
+        }
+      }
+
+
+    } else if (shiftKeyDown && !this.checked) {
+      currentChecked = this.dataset.itemIndex;
+
+      if (Number(currentChecked) > Number(lastChecked)) {
+        // down going up to last check
+        for(let i = lastChecked; i <= currentChecked; i++) {
+          const itemToCheck = document.querySelector(`input[data-item-index='${i}']`);
+          console.log(itemToCheck);
+          itemToCheck.checked = false;
+        }
+      } else if (Number(currentChecked)  < Number(lastChecked)){
+        for(let i =  currentChecked; i <= lastChecked; i++) {
+          const itemToCheck = document.querySelector(`input[data-item-index='${i}']`);
+          console.log(itemToCheck);
+          itemToCheck.checked = false;
+        }
+      }
+    }
+
+    lastChecked = this.dataset.itemIndex;
+  }
+
 </script>
 </body>
 </html>
