@@ -22,8 +22,26 @@ function updateButton (event) {
     playBtn.textContent = icon;
 }
 
-function videoProgress (event) {
+const progressBar = document.querySelector(".progress__filled");
+videoPlayer.addEventListener('timeupdate' , handleVideoProgress);
+function handleVideoProgress (event) {
+    const percent = (videoPlayer.currentTime / videoPlayer.duration) * 100;
+    progressBar.style['flex-basis'] = `${percent}%`;
+    console.log(percent);
+}
 
+const progress = document.querySelector(".progress")
+progress.addEventListener("click", scrub);
+progress.addEventListener("mousemove", (e) => {
+    if(mouseDown) {
+        const scrubTime = (e.offsetX / progress.offsetWidth);
+        videoPlayer.currentTime = scrubTime  * videoPlayer.duration;
+    }
+});
+function scrub(e) {
+    const scrubTime = (e.offsetX / progress.offsetWidth);
+    videoPlayer.currentTime = scrubTime  * videoPlayer.duration;
+    
 }
 
 // handle skip button;
@@ -42,10 +60,22 @@ function skip (event) {
     videoPlayer.currentTime = seekValue;
 }
 
-const volumeSlider = document.querySelector("input.player__slider");
+const inputSlider = document.querySelectorAll("input.player__slider");
+inputSlider.forEach(ele => {
+    ele.addEventListener("change", handleRangeUpdate);
+    ele.addEventListener("mousemove", handleRangeUpdate);
+})
 
-volumeSlider.addEventListener("change", adjustVolume);
-
-function adjustVolume (event) {
-    videoPlayer.volume(this.value);
+function handleRangeUpdate (event) {
+    //console.log(event);
+    videoPlayer[this.name] = this.value;
 }
+
+let mouseDown = false;
+progress.addEventListener("mousedown", () => {
+    mouseDown = true;
+} )
+
+progress.addEventListener("mouseup", () => {
+    mouseDown = false;
+} )
