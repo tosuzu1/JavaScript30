@@ -7,6 +7,21 @@
     <link rel="icon" href="https://fav.farm/🔥" />
   </head>
   <body>
-    <script></script>
+    <script>
+      let pressed = [];
+      const secretCode = "tosuzu";
+      window.addEventListener('keyup', event => {
+        pressed.push(event.key)
+        while (pressed.length > secretCode.length) {
+          pressed.shift();
+        }
+     
+        if (pressed.join('') === secretCode) {
+          console.log("SECRET")
+          cornify_add();
+        }
+        
+      })
+    </script>
   </body>
 </html>
